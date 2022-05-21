@@ -12,7 +12,7 @@ router.get('/', (req, res, next) => {
 // if payloads' body is valid, checkPayload includes it on req.project     
 router.post('/', checkPayload, (req, res, next) => {
     db.create(req.project)
-    .then(projects => { res.status(200).json(projects) })
+    .then(project => { res.status(200).json(project) })
     .catch(err => next(err))
 })
 
