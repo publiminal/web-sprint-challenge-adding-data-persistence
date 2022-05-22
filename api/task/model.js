@@ -3,10 +3,29 @@ const db = require('../../data/dbConfig')
 
 const TASKS = 'tasks'
 
+
+
+/* 
+
+SELECT  task_id, 
+        task_description,
+        task_notes,
+        task_completed,
+        project_name,
+        project_description
+  FROM tasks 
+    JOIN projects ON tasks.project_id = projects.project_id;  
+
+
+*/
+
+
+
 async function get() {
     const query = await db
-        .select('*')
+        .select('task_id', 'task_description','task_notes', 'task_completed', 'project_name','project_description')
         .from(TASKS)
+        .join('projects', 'tasks.project_id ', 'projects.project_id')
         // const result = query.map(task => { return { ...task }})
         const result = query.map(task => { return { ...task, task_completed:Boolean(parseInt(task.task_completed)) }})
 
@@ -29,7 +48,8 @@ async function create(resource) {
         .select('*')
         .from(TASKS)
         .where({task_id:newTaskid}).first()
-    return result
+        const formatedResult = {...result, task_completed:Boolean(parseInt(result.task_completed))  }
+        return formatedResult
 }
 
 

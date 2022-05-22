@@ -14,7 +14,7 @@ exports.checkPayload = (req, res, next) => {
    
    const desc = task.task_description  ? task.task_description.trim() : ''
    const projectId = Number.parseInt(task.project_id)
-   const isCompleted =  'task_completed' in task ? Number.parseInt(task.task_completed) : 0    
+   const isCompleted =  'task_completed' in task && task.task_completed !== null ? Number.parseInt(task.task_completed) : 0    
    const hasinvalidLength = desc.length < 3 || desc.length > 256
    const isOk = !hasinvalidLength && isValid
      

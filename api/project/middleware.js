@@ -7,7 +7,7 @@ const db = require('../../data/dbConfig')
 exports.checkPayload = (req, res, next) => {
  
  const project = req.body
- const isCompleted =  'project_completed' in project ? Number.parseInt(project.project_completed) : 0 
+ const isCompleted =  'project_completed' in project && project.project_completed !== null ? Number.parseInt(project.project_completed) : 0 
  const isValid = 'project_name' in project
  if(!isValid){ res.status(400).json({ message: "project_name is required" }); return; }
 
@@ -16,7 +16,7 @@ exports.checkPayload = (req, res, next) => {
   const isOk = !hasinvalidName
   
   if(hasinvalidName){ res.status(400).json({ message: "name of project must be between 3 and 127"}); return; }
-  if(isOk){ req.project = { project_name:name, project_completed:isCompleted}; next() }
+  if(isOk){ req.project = { ...project,  project_name:name, project_completed:isCompleted}; next() }
 
 }
 

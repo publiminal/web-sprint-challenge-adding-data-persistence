@@ -25,7 +25,8 @@ async function create(project) {
         .select('*')
         .from('projects')
         .where({project_id:newProjectId}).first()
-    return result
+    const formatedResult = {...result, project_completed:Boolean(parseInt(result.project_completed))  }
+    return formatedResult
 }
 
 module.exports = {
